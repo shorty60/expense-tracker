@@ -1,0 +1,101 @@
+<div class='row mt-5 mb-5'>
+  <div class='col col-8 col-sm-8 col-md-6 col-lg-4 m-auto'>
+    <div class='card card-body'>
+      <h1 class='text-center mb-5'>Register</h1>
+      {{> message}}
+      <form
+        action='/users/register'
+        method='POST'
+        multipart='urlencoded'
+        novalidate
+      >
+        <div class='mb-3'>
+          <label for='name'>Name</label>
+          <input
+            class='form-control'
+            id='name'
+            name='name'
+            onfocus='this.select()'
+            placeholder='Enter name'
+            type='name'
+            value='{{name}}'
+          />
+        </div>
+        <label for='email'>Email</label>
+        <div class='mb-3'>
+          <input
+            class='form-control'
+            id='email'
+            name='email'
+            onfocus='this.select()'
+            placeholder='Enter email'
+            type='email'
+            value='{{email}}'
+            required
+          />
+          <div class='valid-feedback'>
+            Looks good!
+          </div>
+          <div class='invalid-feedback'>
+            這個欄位必填喔
+          </div>
+        </div>
+
+        <label for='password'>Password</label>
+        <div class='mb-3'>
+          <input
+            class='form-control'
+            id='password'
+            name='password'
+            onfocus='this.select()'
+            placeholder='Enter password'
+            type='password'
+            value='{{password}}'
+            required
+          />
+          <div class='valid-feedback'>
+            Looks good!
+          </div>
+          <div class='invalid-feedback'>
+            這個欄位必填喔
+          </div>
+        </div>
+
+        <label for='confirmPassword'>Confirm Password</label>
+        <div class='mb-5'>
+          <input
+            class='form-control'
+            id='confirmPassword'
+            name='confirmPassword'
+            onfocus='this.select()'
+            placeholder='Confirm password'
+            type='password'
+            value='{{confirmPassword}}'
+            required
+          />
+          <div class='valid-feedback'>
+            Looks good!
+          </div>
+          <div class='invalid-feedback'>
+            這個欄位必填喔
+          </div>
+        </div>
+        <div class='d-grid gap-2'>
+          <button class='btn btn-info' id='submit-button' type='submit'>Sign up</button>
+          <a href='/auth/facebook' class='btn btn-primary mt-4'>
+            <i class='fa-brands fa-facebook-f mr-2'></i>Sign up with Facebook
+          </a>
+          <a href='/auth/google' class='btn btn-danger mt-2'>
+            <i class='fa-brands fa-google mr-2'></i>Sign up with Google</a>
+        </div>
+      </form>
+
+      <p class='mt-4'>
+        Already Have Account?
+        <a href='/users/login'>Login</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src='/javascripts/validation.js'></script>
