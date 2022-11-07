@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "name": "廣志",
+      "email": "father@example.com",
+      "password": "12345678",
+      "recordIndex": [0, 1, 2, 4]
+    },
+    {
+      "name": "小新",
+      "email": "shin@example.com",
+      "password": "12345678",
+      "recordIndex": [3]
+    }
+  ]
+}
