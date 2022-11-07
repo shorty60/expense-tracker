@@ -23,8 +23,20 @@
         class='navbar navbar-dark bg-dark justify-content-between align-items-center py-2 px-4'
       >
         <div class='container-fluid'>
-          <a class='navbar-brand' href='/'>家庭記帳本</a>
-          <a class='btn btn-outline-success me-5' href='/users/login'>Login</a>
+          {{#if isAuthenticated}}
+            <a class='navbar-brand' href='/'>{{user.name}}'s 家庭記帳本</a>
+            <form action='/users/logout' class='my-auto' method='POST'>
+              <input class='form-control' type='hidden' name='sessionID' />
+              <button class='btn btn-outline-primary me-5' type='submit'><i
+                  class='fa-solid fa-right-from-bracket me-2'
+                ></i>Logout</button>
+            </form>
+          {{else}}
+            <a class='navbar-brand' href='/'>家庭記帳本</a>
+            <a class='btn btn-outline-success me-5' href='/users/login'><i
+                class='fa-solid fa-right-to-bracket me-2'
+              ></i>Login</a>
+          {{/if}}
         </div>
       </nav>
     </header>

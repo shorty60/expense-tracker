@@ -17,4 +17,13 @@ router.post(
   })
 )
 
+router.post('/logout', async (req, res, next) => {
+  await req.logout(err => {
+    if (err) {
+      return next(err)
+    }
+  })
+  req.flash('success_msg', '你已成功登出')
+  return res.redirect('/users/login')
+})
 module.exports = router

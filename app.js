@@ -49,6 +49,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user
   res.locals.loginFailed_msg = req.flash('error_messages')
   res.locals.warning_msg = req.flash('warning_msg')
+  res.locals.success_msg = req.flash('success_msg')
   next()
 })
 
