@@ -4,6 +4,7 @@ const router = express.Router()
 
 // 取得新增頁面
 router.get('/new', (req, res) => {
+  res.render('new')
 })
 
 // 新增一筆支出
