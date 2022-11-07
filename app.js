@@ -6,6 +6,7 @@ const session = require('express-session')
 const exphbs = require('express-handlebars')
 const flash = require('connect-flash')
 const MongoStore = require('connect-mongo')
+const methodOverride = require('method-override')
 const usePassport = require('./config/passport')
 
 const port = process.env.PORT
@@ -38,6 +39,7 @@ app.use(
 // 對request做前處理
 app.use(express.urlencoded({ extended: true })) // 取得req.body內容
 app.use(express.static('public')) // 靜態檔案
+app.use(methodOverride('_method')) // 使用method-override改寫HTTP verb, 使其符合RESTful
 
 // 使用passport驗證
 usePassport(app)
