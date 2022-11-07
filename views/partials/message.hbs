@@ -1,0 +1,23 @@
+{{#if loginFailed_msg}}
+  <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+    {{loginFailed_msg}}
+    <button
+      type='button'
+      class='btn-close'
+      data-bs-dismiss='alert'
+      aria-label='Close'
+    ></button>
+  </div>
+{{/if}}
+
+{{#if warning_msg}}
+  <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+    {{warning_msg}}
+    <button
+      type='button'
+      class='btn-close'
+      data-bs-dismiss='alert'
+      aria-label='Close'
+    ></button>
+  </div>
+{{/if}}
