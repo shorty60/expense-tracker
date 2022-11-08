@@ -2,4 +2,18 @@
   font-size: 5rem;
   color: #ff8000;
 }
+#amount-title {
+  font-size: 1.5rem;
+}
+.fa-house,
+.fa-face-grin-beam,
+.fa-utensils,
+.fa-pen,
+.fa-van-shuttle {
+  font-size: 3rem;
+  color: #46a3ff;
+}
 
+.record-title {
+  font-size: 2rem;
+}
