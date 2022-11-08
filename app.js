@@ -8,6 +8,7 @@ const flash = require('connect-flash')
 const MongoStore = require('connect-mongo')
 const methodOverride = require('method-override')
 const usePassport = require('./config/passport')
+
 const handlebarsHelperClass = require('./utilities/handlebarshelper')
 
 const port = process.env.PORT

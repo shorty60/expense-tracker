@@ -7,6 +7,8 @@ const records = require('./modules/record')
 
 const { authenticator } = require('../middlewares/auth')
 const { NoRecordsError } = require('../errors/errortype')
+const getCategories = require('../utilities/category')
+
 router.use('/users', users)
 router.use('/records', authenticator, records)
 router.use('/', authenticator, home)
@@ -14,12 +16,13 @@ router.use('/', authenticator, home)
 router.use('*', (req, res) => {
   res.status(404).send('404 not found')
 })
-router.use((err, req, res, next) => {
+router.use(async (err, req, res, next) => {
   if (err instanceof NoRecordsError) {
     const notFoundRecord = err.message
-    return res.render('index', { notFoundRecord })
+    const categories = await getCategories()
+    return res.render('index', { notFoundRecord, categories })
   }
-  res.status(500).send(err.message)
+  return res.status(500).send(err.message)
 })
 
 module.exports = router

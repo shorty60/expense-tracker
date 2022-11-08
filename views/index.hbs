@@ -3,10 +3,26 @@
   <p id="amount-title" class='ms-2'>總金額: </p>
   <p id='amount-number'>{{totalAmount}}</p>
 </div>
+{{!-- filterform --}}
+<form action="/filter" class="d-flex justify-content-center align-items-center" name="filterForm">
+  <div class='row'>
+    <select
+      class='form-select'
+      name='filterby'
+      id='filterby'
+      onchange='this.form.submit()'
+    >
+      <option selected disabled value="">篩選</option>
+      {{#each categories}}
+      <option value='{{this._id}}'{{#isMatched this._id ../categoryId}} selected{{/isMatched}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+</form>
 {{#if notFoundRecord}}
   <div class='alert alert-warning' role='alert'>
     <h4 class='alert-heading'>還沒有支出資料喔</h4>
-    <p>快來新增第一筆支出吧</p>
+    <p>{{notFoundRecord}}</p>
     <hr />
     <p class='mb-0'>開始記錄支出，掌握自己的人生</p>
   </div>

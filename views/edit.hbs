@@ -50,7 +50,7 @@
             >種類<span>*</span>:</label>
             <div class='col-sm-9'>
               <select class='form-select' name='categoryId' id='category'>
-                <option elected disabled value=''>選擇類別</option>
+                <option disabled value=''>選擇類別</option>
                 {{#each categories}}
                   <option value='{{this._id}}' {{#isMatched this._id ../record.categoryId}} selected{{/isMatched}}>{{this.name}}</option>
                 {{/each}}
