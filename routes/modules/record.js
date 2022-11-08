@@ -1,4 +1,5 @@
 const express = require('express')
+const assert = require('assert')
 const moment = require('moment')
 const Record = require('../../models/record')
 const Category = require('../../models/category')
@@ -28,16 +29,14 @@ router.post('/', expenseValidator, (req, res, next) => {
   if (!errors.isEmpty()) {
     const errorsMsg = errors.array().map(err => err.msg)
     getCategories().then(categories => {
-      return res
-        .status(400)
-        .render('new', {
-          name,
-          date,
-          amount,
-          categoryId,
-          categories,
-          errorsMsg,
-        })
+      return res.status(400).render('new', {
+        name,
+        date,
+        amount,
+        categoryId,
+        categories,
+        errorsMsg,
+      })
     })
   } else {
     // 驗證成功，寫入一筆新的record進資料庫
@@ -79,13 +78,28 @@ router.put('/:id', expenseValidator, (req, res, next) => {
     })
   } else {
     // 驗證成功，更新資料庫資料
-    return Record.findOneAndUpdate({_id, userId},{ name, date, amount, userId, categoryId })
+    return Record.findOneAndUpdate(
+      { _id, userId },
+      { name, date, amount, userId, categoryId }
+    )
       .then(() => res.redirect('/'))
       .catch(err => next(err))
   }
 })
 
 // 刪除一筆支出
-router.delete('/:id', (req, res) => {})
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const userId = req.user._id
+    const _id = req.params.id
+    const recordDelete = await Record.findOne({ _id, userId })
+    assert(recordDelete, new Error('Oops找不到這家餐廳'))
+    await recordDelete.remove()
+
+    return res.redirect('/')
+  } catch (err) {
+    next(err)
+  }
+})
 
 module.exports = router

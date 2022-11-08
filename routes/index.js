@@ -19,7 +19,7 @@ router.use((err, req, res, next) => {
     const notFoundRecord = err.message
     return res.render('index', { notFoundRecord })
   }
-  res.status(500).send('500 error')
+  res.status(500).send(err.message)
 })
 
 module.exports = router
