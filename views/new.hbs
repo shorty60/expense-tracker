@@ -3,11 +3,12 @@
     <div class='card col-sm-8'>
       <div class='card-dody'>
         <div class='d-flex justify-content-center'>
-          <h2 class='card-title my-3 text-center'>請輸入你的支出</h2>
+          <h2 class='card-title my-3 text-center'>請輸入你的支出</h2>  
         </div>
+        {{> message}}
         <small class='mb-5'>*必填欄位</small>
 
-        <form action='/records' method='POST'>
+        <form id="expense-form" action='/records' method='POST'>
           <div class='row my-5'>
             <label for='name' class='col-sm-3 col-form-label text-end'>名稱<span
               >*</span>:</label>
@@ -16,7 +17,8 @@
                 type='text'
                 class='form-control'
                 id='name'
-                placeholder='晚餐'
+                placeholder='eg.看電影'
+                value="{{#if name}}{{name}}{{/if}}"
                 name='name'
                 required
               />
@@ -32,6 +34,7 @@
                 class='form-control'
                 id='date'
                 name='date'
+                value="{{#if date}}{{date}}{{/if}}"
                 required
               />
             </div>
@@ -42,44 +45,36 @@
               class='col-sm-3 col-form-label text-end'
             >種類<span>*</span>:</label>
             <div class='col-sm-9'>
-              <select class='form-control' name='CategoryId' id='category'>
+              <select class='form-select' name='categoryId' id='category'>
                 <option elected disabled value=''>選擇類別</option>
-                <option value='1'>家居物業</option>
-                <option value='2'>交通出行</option>
-                <option value='3'>休閒娛樂</option>
-                <option value='4'>餐飲食品</option>
-                <option value='5'>其他</option>
+                {{#each categories}}
+                  <option value='{{this._id}}'>{{this.name}}</option>
+                {{/each}}
               </select>
             </div>
-
           </div>
           <div class='row mb-5'>
             <label
-              for='number'
+              for='amount'
               class='col-sm-3 col-form-label text-end'
             >金額<span>*</span>:</label>
             <div class='col-sm-9'>
               <input
-                type='text'
+                type='number'
                 class='form-control'
-                id='number'
-                name='number'
+                id='amount'
+                name='amount'
+                value="{{#if amount}}{{amount}}{{/if}}"
+                min="0"
                 required
               />
             </div>
           </div>
-
           <div class='text-center'>
             <button class='btn btn-primary' type='submit'>新增支出</button>
           </div>
         </form>
       </div>
-
     </div>
   </div>
-
-</div>
-
-<div class='form-group mt-3'>
-
 </div>

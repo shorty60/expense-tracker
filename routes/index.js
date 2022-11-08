@@ -6,7 +6,7 @@ const users = require('./modules/user')
 const records = require('./modules/record')
 
 const { authenticator } = require('../middlewares/auth')
-
+const { NoRecordsError } = require('../errors/errortype')
 router.use('/users', users)
 router.use('/records', authenticator, records)
 router.use('/', authenticator, home)
@@ -15,10 +15,10 @@ router.use('*', (req, res) => {
   res.status(404).send('404 not found')
 })
 router.use((err, req, res, next) => {
-  if (err instanceof NoRecordsError){
-    const notFoundRecord = err.msg
-    return res.render('index', { notFoundRecord })
-  } 
+  // if (err instanceof NoRecordsError) {
+  //   const notFoundRecord = err.msg
+  //   return res.render('index', { notFoundRecord })
+  // }
   res.status(500).send('500 error')
 })
 

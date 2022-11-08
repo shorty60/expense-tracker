@@ -2,26 +2,48 @@ const express = require('express')
 const Record = require('../../models/record')
 const router = express.Router()
 
+const { validationResult } = require('express-validator')
+const getCategories = require('../../utilities/category') // 取得categories的function
+const { expenseValidator } = require('../../middlewares/validation')
+
 // 取得新增頁面
-router.get('/new', (req, res) => {
-  res.render('new')
+router.get('/new', (req, res, next) => {
+  getCategories()
+    .then(categories => {
+      return res.render('new', { categories })
+    })
+    .catch(err => next(err))
 })
 
 // 新增一筆支出
-router.post('/', (req, res) => {})
+router.post('/', expenseValidator, (req, res, next) => {
+  const userId = req.user._id
+  const { name, date, categoryId, amount } = req.body
 
-// 取得編輯頁面 
+  const errors = validationResult(req) // 取得驗證不通過結果
+  // 如果驗證有誤，顯示錯誤訊息給使用者
+  if (!errors.isEmpty()) {
+    const errorsMsg = errors.array().map(err => err.msg)
+    getCategories().then(categories => {
+      return res
+        .status(400)
+        .render('new', { name, date, amount, categories, errorsMsg })
+    })
+  } else {
+    // 驗證成功，寫入一筆新的record進資料庫
+    return Record.create({ name, date, amount, userId, categoryId })
+      .then(() => res.redirect('/'))
+      .catch(err => next(err))
+  }
+})
+
+// 取得編輯頁面
 router.get('/:id/edit', (req, res) => {})
 
 // 編輯一筆支出
-router.put('/:id', (req, res) => {
-
-})
+router.put('/:id', (req, res) => {})
 
 // 刪除一筆支出
-router.delete('/:id', (req, res) => {
-
-})
-
+router.delete('/:id', (req, res) => {})
 
 module.exports = router

@@ -1,7 +1,7 @@
 <!--total amount-->
 <div class='amount-box mt-5'>
   <p class='ms-2'>總金額: </p>
-  <p id='amount'>{{totalAmount}}</p>
+  <p id='amount-number'>{{totalAmount}}</p>
 </div>
 
 {{! records }}
@@ -42,5 +42,6 @@
     </table>
   {{/if}}
 </div>
-
-<a class='btn btn-outline-light mb-3 ms-auto' href='/records/new'>新增支出</a>
+<div class="d-flex justify-content-center mt-5">
+  <a class='btn btn-primary btn-lg mb-3' href='/records/new'>新增支出</a>
+</div>

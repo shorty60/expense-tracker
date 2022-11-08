@@ -3,7 +3,7 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 
-const { body, validationResult } = require('express-validator')
+const { validationResult } = require('express-validator')
 
 const User = require('../../models/user')
 const { userValidator } = require('../../middlewares/validation')
