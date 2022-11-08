@@ -48,6 +48,19 @@
   {{/each}}
 {{/if}}
 
+{{#if edit_error_msg}}
+  {{#each edit_error_msg}}
+    <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+      {{this}}
+      <button
+        type='button'
+        class='btn-close'
+        data-bs-dismiss='alert'
+        aria-label='Close'
+      ></button>
+    </div>
+  {{/each}}
+{{/if}}
 
 {{#if isRegistered}}
   <div class='alert alert-warning alert-dismissible fade show' role='alert'>

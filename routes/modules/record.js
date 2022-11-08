@@ -64,8 +64,25 @@ router.get('/:id/edit', async (req, res, next) => {
 })
 
 // 編輯一筆支出
-router.put('/:id', (req, res) => {
-  console.log(req.body)
+router.put('/:id', expenseValidator, (req, res, next) => {
+  const _id = req.params.id
+  const userId = req.user._id
+  const { name, date, categoryId, amount } = req.body
+
+  const errors = validationResult(req) // 取得驗證不通過結果
+  // 如果驗證有誤，顯示錯誤訊息給使用者
+  if (!errors.isEmpty()) {
+    const errorsMsg = errors.array().map(err => err.msg)
+    getCategories().then(categories => {
+      req.flash('edit_error_msg', errorsMsg)
+      return res.status(400).redirect(`/records/${_id}/edit`)
+    })
+  } else {
+    // 驗證成功，更新資料庫資料
+    return Record.findOneAndUpdate({_id, userId},{ name, date, amount, userId, categoryId })
+      .then(() => res.redirect('/'))
+      .catch(err => next(err))
+  }
 })
 
 // 刪除一筆支出
