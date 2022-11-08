@@ -16,15 +16,17 @@ router.use('/records', authenticator, records)
 router.use('/', authenticator, home)
 
 router.use('*', (req, res) => {
-  res.status(404).send('404 not found')
+  res.status(404).render('notfound404')
 })
+
 router.use(async (err, req, res, next) => {
   if (err instanceof NoRecordsError) {
     const notFoundRecord = err.message
     const categories = await getCategories()
     return res.render('index', { notFoundRecord, categories })
   }
-  return res.status(500).send(err.message)
+  const serverErrorMsg = err.message
+  return res.status(500).render('error500', serverErrorMsg)
 })
 
 module.exports = router

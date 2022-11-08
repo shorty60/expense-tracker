@@ -12,7 +12,6 @@ const { expenseValidator } = require('../../middlewares/validation')
 router.get('/new', async (req, res, next) => {
   try {
     const categories = await getCategories()
-    assert(categories.length, new Error('Oops可能發生了些問題...請重新整理')) // 確認有抓到餐廳種類，沒抓到的話丟錯誤出來
     return res.render('new', { categories })
   } catch (err) {
     next(err)
@@ -60,10 +59,14 @@ router.get('/:id/edit', async (req, res, next) => {
     const _id = req.params.id
 
     const record = await Record.findOne({ _id, userId }).lean()
-    assert(record, new Error('Oops可能發生了些問題...找不到這家餐廳')) // 確定有找到餐廳
+    if(!record) {
+      req.flash('warning_msg', '找不到這筆支出')
+      return res.redirect('/')
+    }
+    
 
     const categories = await getCategories()
-    assert(categories.length, new Error('Oops可能發生了些問題...請重新整理')) // 確定有抓到種類資料
+    assert(categories.length, Error('Oops可能發生了些問題...請重新整理')) // 確定有抓到種類資料
     record.date = moment(record.date).format('YYYY-MM-DD') // 整理日期格式
 
     return res.render('edit', { record, categories })
@@ -104,9 +107,7 @@ router.delete('/:id', async (req, res, next) => {
   try {
     const userId = req.user._id
     const _id = req.params.id
-    const recordDelete = await Record.findOne({ _id, userId })
-    assert(recordDelete, new Error('Oops找不到這家餐廳'))
-    await recordDelete.remove()
+    await Record.findOneAndDelete({ _id, userId })
 
     return res.redirect('/')
   } catch (err) {
