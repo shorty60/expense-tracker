@@ -8,6 +8,7 @@ const flash = require('connect-flash')
 const MongoStore = require('connect-mongo')
 const methodOverride = require('method-override')
 const usePassport = require('./config/passport')
+const handlebarsHelperClass = require('./utilities/handlebarshelper')
 
 const port = process.env.PORT
 require('./config/mongoose')
@@ -16,7 +17,14 @@ const app = express()
 const routes = require('./routes')
 
 // 設定view engine
-app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine(
+  'hbs',
+  exphbs.engine({
+    defaultLayout: 'main',
+    extname: '.hbs',
+    helpers: handlebarsHelperClass,
+  })
+)
 app.set('view engine', 'hbs')
 
 // 設定session

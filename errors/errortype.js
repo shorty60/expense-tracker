@@ -1,7 +1,7 @@
 class NoRecordsError extends Error {
   constructor(message) {
     super(message)
-    this.name = NoRecordsError
+    this.name = 'NoRecordsError'
   }
 }
 

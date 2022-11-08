@@ -15,10 +15,10 @@ router.use('*', (req, res) => {
   res.status(404).send('404 not found')
 })
 router.use((err, req, res, next) => {
-  // if (err instanceof NoRecordsError) {
-  //   const notFoundRecord = err.msg
-  //   return res.render('index', { notFoundRecord })
-  // }
+  if (err instanceof NoRecordsError) {
+    const notFoundRecord = err.message
+    return res.render('index', { notFoundRecord })
+  }
   res.status(500).send('500 error')
 })
 

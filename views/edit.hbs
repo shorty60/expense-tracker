@@ -3,12 +3,12 @@
     <div class='card col-sm-8'>
       <div class='card-dody'>
         <div class='d-flex justify-content-center'>
-          <h2 class='card-title my-3 text-center'>請輸入你的支出</h2>  
+          <h2 class='card-title my-3 text-center'>請修改你的支出</h2>  
         </div>
         {{> message}}
         <small class='mb-5'>*必填欄位</small>
 
-        <form id="expense-form" action='/records' method='POST'>
+        <form id="expense-form" action='/records/{{record._id}}?_method=PUT' method='POST'>
           <div class='row my-5'>
             <label for='name' class='col-sm-3 col-form-label text-end'>名稱<span
               >*</span>:</label>
@@ -18,7 +18,7 @@
                 class='form-control'
                 id='name'
                 placeholder='eg.看電影'
-                value="{{#if name}}{{name}}{{/if}}"
+                value="{{record.name}}"
                 name='name'
                 required
               />
@@ -34,7 +34,7 @@
                 class='form-control'
                 id='date'
                 name='date'
-                value="{{#if date}}{{date}}{{/if}}"
+                value="{{record.date}}"
                 required
               />
             </div>
@@ -48,7 +48,7 @@
               <select class='form-select' name='categoryId' id='category'>
                 <option elected disabled value=''>選擇類別</option>
                 {{#each categories}}
-                  <option value='{{this._id}}'{{#isMatched this._id ../categoryId}}selected{{/isMatched}}>{{this.name}}</option>
+                  <option value='{{this._id}}' {{#isMatched this._id ../record.categoryId}} selected{{/isMatched}}>{{this.name}}</option>
                 {{/each}}
               </select>
             </div>
@@ -64,14 +64,14 @@
                 class='form-control'
                 id='amount'
                 name='amount'
-                value="{{#if amount}}{{amount}}{{/if}}"
+                value="{{record.amount}}"
                 min="0"
                 required
               />
             </div>
           </div>
           <div class='text-center'>
-            <button class='btn btn-primary' type='submit'>新增支出</button>
+            <button class='btn btn-primary' type='submit'>送出</button>
           </div>
         </form>
       </div>
