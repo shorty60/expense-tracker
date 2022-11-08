@@ -2,7 +2,6 @@ const express = require('express')
 const assert = require('assert')
 const moment = require('moment')
 const Record = require('../../models/record')
-const Category = require('../../models/category')
 const router = express.Router()
 
 const { validationResult } = require('express-validator')
@@ -13,6 +12,7 @@ const { expenseValidator } = require('../../middlewares/validation')
 router.get('/new', async (req, res, next) => {
   try {
     const categories = await getCategories()
+    assert(categories.length, new Error('Oops可能發生了些問題...請重新整理')) // 確認有抓到餐廳種類，沒抓到的話丟錯誤出來
     return res.render('new', { categories })
   } catch (err) {
     next(err)
@@ -22,24 +22,31 @@ router.get('/new', async (req, res, next) => {
 // 新增一筆支出
 router.post('/', expenseValidator, (req, res, next) => {
   const userId = req.user._id
-  const { name, date, categoryId, amount } = req.body
+  let { name, date, categoryId, amount } = req.body
 
   const errors = validationResult(req) // 取得驗證不通過結果
   // 如果驗證有誤，顯示錯誤訊息給使用者
   if (!errors.isEmpty()) {
     const errorsMsg = errors.array().map(err => err.msg)
-    getCategories().then(categories => {
-      return res.status(400).render('new', {
-        name,
-        date,
-        amount,
-        categoryId,
-        categories,
-        errorsMsg,
+    getCategories()
+      .then(categories => {
+        assert(
+          categories.length,
+          new Error('Oops可能發生了些問題...請重新整理')
+        ) // 確認有抓到餐廳資料，沒抓到的話丟錯誤出來
+        return res.status(400).render('new', {
+          name,
+          date,
+          amount,
+          categoryId,
+          categories,
+          errorsMsg,
+        })
       })
-    })
+      .catch(err => next(err))
   } else {
     // 驗證成功，寫入一筆新的record進資料庫
+    amount = Number(amount) // 透過req.body傳來的是字串，轉型成Number再寫入資料庫
     return Record.create({ name, date, amount, userId, categoryId })
       .then(() => res.redirect('/'))
       .catch(err => next(err))
@@ -53,7 +60,10 @@ router.get('/:id/edit', async (req, res, next) => {
     const _id = req.params.id
 
     const record = await Record.findOne({ _id, userId }).lean()
+    assert(record, new Error('Oops可能發生了些問題...找不到這家餐廳')) // 確定有找到餐廳
+
     const categories = await getCategories()
+    assert(categories.length, new Error('Oops可能發生了些問題...請重新整理')) // 確定有抓到種類資料
     record.date = moment(record.date).format('YYYY-MM-DD') // 整理日期格式
 
     return res.render('edit', { record, categories })
@@ -66,25 +76,27 @@ router.get('/:id/edit', async (req, res, next) => {
 router.put('/:id', expenseValidator, (req, res, next) => {
   const _id = req.params.id
   const userId = req.user._id
-  const { name, date, categoryId, amount } = req.body
+  let { name, date, categoryId, amount } = req.body
 
   const errors = validationResult(req) // 取得驗證不通過結果
   // 如果驗證有誤，顯示錯誤訊息給使用者
   if (!errors.isEmpty()) {
     const errorsMsg = errors.array().map(err => err.msg)
-    getCategories().then(categories => {
-      req.flash('edit_error_msg', errorsMsg)
-      return res.status(400).redirect(`/records/${_id}/edit`)
-    })
-  } else {
-    // 驗證成功，更新資料庫資料
-    return Record.findOneAndUpdate(
-      { _id, userId },
-      { name, date, amount, userId, categoryId }
-    )
-      .then(() => res.redirect('/'))
+    return getCategories()
+      .then(categories => {
+        req.flash('edit_error_msg', errorsMsg)
+        return res.status(400).redirect(`/records/${_id}/edit`)
+      })
       .catch(err => next(err))
   }
+  // 驗證成功，更新資料庫資料
+  amount = Number(amount)
+  return Record.findOneAndUpdate(
+    { _id, userId },
+    { name, date, amount, userId, categoryId }
+  )
+    .then(() => res.redirect('/'))
+    .catch(err => next(err))
 })
 
 // 刪除一筆支出

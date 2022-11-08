@@ -8,6 +8,7 @@ module.exports = {
     body('categoryId').not().isEmpty().withMessage('請輸入種類'),
     body('amount').isInt({ gt: 0 }).withMessage('請輸入大於0的金額'),
   ],
+
   userValidator: [
     body('email')
       .isEmail()

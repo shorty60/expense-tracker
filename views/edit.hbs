@@ -19,6 +19,7 @@
                 id='name'
                 placeholder='eg.看電影'
                 value="{{record.name}}"
+                onfocus='this.select()'
                 name='name'
                 required
               />
@@ -35,6 +36,7 @@
                 id='date'
                 name='date'
                 value="{{record.date}}"
+                onfocus='this.select()'
                 required
               />
             </div>
@@ -65,6 +67,7 @@
                 id='amount'
                 name='amount'
                 value="{{record.amount}}"
+                onfocus='this.select()'
                 min="0"
                 required
               />

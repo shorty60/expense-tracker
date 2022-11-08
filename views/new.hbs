@@ -20,6 +20,7 @@
                 placeholder='eg.看電影'
                 value="{{#if name}}{{name}}{{/if}}"
                 name='name'
+                onfocus='this.select()'
                 required
               />
             </div>
@@ -35,6 +36,7 @@
                 id='date'
                 name='date'
                 value="{{#if date}}{{date}}{{/if}}"
+                onfocus='this.select()'
                 required
               />
             </div>
@@ -65,6 +67,7 @@
                 id='amount'
                 name='amount'
                 value="{{#if amount}}{{amount}}{{/if}}"
+                onfocus='this.select()'
                 min="0"
                 required
               />
