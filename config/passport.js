@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const FacebookStrategy = require('passport-facebook').Strategy
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 const User = require('../models/user')
 
 module.exports = app => {
@@ -52,10 +53,40 @@ module.exports = app => {
           const { email, name } = profile._json
           const user = await User.findOne({ email }) // 看使用者是否已註冊過
           if (user) return done(null, user) // 有存過資料庫就直接放行而不需比對密碼
+          // 如果資料庫還沒有使用者
           const randomPassword = Math.random().toString(32).slice(-10) //產生一組隨機密碼給使用者
           const salt = await bcrypt.genSalt(10)
           const hash = await bcrypt.hash(randomPassword, salt)
           const userCreated = await User.create({ name, email, password: hash })
+          return done(null, userCreated)
+        } catch (err) {
+          return done(err, false)
+        }
+      }
+    )
+  )
+
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK,
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const { email, name } = profile._json
+          const user = await User.findOne({ email })
+          if (user) return done(null, user)
+          // 如果資料庫還沒有使用者
+          const randomPassword = Math.random().toString(32).slice(-10)
+          const salt = await bcrypt.genSalt(10)
+          const hash = await bcrypt.hash(randomPassword, salt)
+          const userCreated = await User.create({
+            name,
+            email,
+            password: hash,
+          })
           return done(null, userCreated)
         } catch (err) {
           return done(err, false)
