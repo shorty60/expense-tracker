@@ -4,21 +4,27 @@
   <p id='amount-number'>{{totalAmount}}</p>
 </div>
 {{!-- filterform --}}
-<form action="/filter" class="d-flex justify-content-center align-items-center" name="filterForm">
-  <div class='row'>
-    <select
-      class='form-select'
-      name='filterby'
-      id='filterby'
-      onchange='this.form.submit()'
-    >
-      <option selected disabled value="">篩選</option>
-      {{#each categories}}
-      <option value='{{this._id}}'{{#isMatched this._id ../categoryId}} selected{{/isMatched}}>{{this.name}}</option>
-      {{/each}}
-    </select>
-  </div>
-</form>
+
+<div class='row d-flex justify-content-center'>
+  <div class="col-sm-8 my-3">
+      <form action="/filter" name="filterForm">
+          <div class='row'>
+            <select
+              class='form-select'
+              name='filterby'
+              id='filterby'
+              onchange='this.form.submit()'
+            >
+              <option selected disabled value="">篩選</option>
+              {{#each categories}}
+              <option value='{{this._id}}'{{#isMatched this._id ../categoryId}} selected{{/isMatched}}>{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </form>
+  </div>  
+</div>
+
 {{#if notFoundRecord}}
   <div class='alert alert-warning' role='alert'>
     <h4 class='alert-heading'>還沒有支出資料喔</h4>
