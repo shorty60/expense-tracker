@@ -3,7 +3,7 @@
     <div class='card card-body'>
       <h1 class='text-center mb-5'>Login</h1>
       {{> message}}
-      <form action='/users/login' method='POST' novalidate>
+      <form action='/users/login' method='POST' id='login-form' novalidate>
         <div class='mb-3'>
           <label for='email'>Email</label>
           <input
@@ -42,8 +42,7 @@
         </div>
         <div class='d-grid gap-2'>
           <button
-            class='btn btn-success'
-            id='submit-button'
+            class='btn btn-success submit-button'
             type='submit'
           >Login</button>
           <a href='/auth/facebook' class='btn btn-primary mt-4'>

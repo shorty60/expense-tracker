@@ -1,6 +1,6 @@
 <div class='container'>
   <div class='row d-flex justify-content-center'>
-    <div class='card col-sm-8'>
+    <div class='card col-sm-8 mt-5'>
       <div class='card-dody'>
         <div class='d-flex justify-content-center'>
           <h2 class='card-title my-3 text-center'>請輸入你的支出</h2>  
@@ -8,7 +8,7 @@
         {{> message}}
         <small class='mb-5'>*必填欄位</small>
 
-        <form id="expense-form" action='/records' method='POST'>
+        <form class="expense-form" action='/records' method='POST' novalidate>
           <div class='row my-5'>
             <label for='name' class='col-sm-3 col-form-label text-end'>名稱<span
               >*</span>:</label>
@@ -23,7 +23,9 @@
                 onfocus='this.select()'
                 required
               />
+              <div class='invalid-feedback'>這個欄位必填喔</div>
             </div>
+            
 
           </div>
           <div class='row mb-5'>
@@ -39,6 +41,7 @@
                 onfocus='this.select()'
                 required
               />
+              <div class='invalid-feedback'>這個欄位必填喔</div>
             </div>
           </div>
           <div class='row mb-5'>
@@ -53,6 +56,7 @@
                   <option value='{{this._id}}'{{#isMatched this._id ../categoryId}}selected{{/isMatched}}>{{this.name}}</option>
                 {{/each}}
               </select>
+              <div class='invalid-feedback'>這個選擇一個種類</div>
             </div>
           </div>
           <div class='row mb-5'>
@@ -71,13 +75,16 @@
                 min="0"
                 required
               />
+              <div class='invalid-feedback'>請輸入大於0的數字</div>
             </div>
           </div>
           <div class='text-center'>
-            <button class='btn btn-primary' type='submit'>新增支出</button>
+            <button class='btn btn-primary btn-lg submit-button' type='submit' >新增支出</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script src='/javascripts/validation.js'></script>
