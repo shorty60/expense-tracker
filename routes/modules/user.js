@@ -6,6 +6,7 @@ const { validationResult } = require('express-validator')
 
 const User = require('../../models/user')
 const { userValidator } = require('../../middlewares/validation')
+
 // 取得註冊頁面
 router.get('/register', (req, res) => {
   res.render('register')

@@ -26,7 +26,8 @@ router.use(async (err, req, res, next) => {
     return res.render('index', { notFoundRecord, categories })
   }
   const serverErrorMsg = err.message
-  return res.status(500).render('error500', serverErrorMsg)
+  console.log(serverErrorMsg) // check error message in log
+  return res.status(500).render('error500')
 })
 
 module.exports = router
