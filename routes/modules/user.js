@@ -60,8 +60,8 @@ router.post(
   })
 )
 
-router.post('/logout', async (req, res, next) => {
-  await req.logout(err => {
+router.post('/logout', (req, res, next) => {
+  req.logout(err => {
     if (err) {
       return next(err)
     }

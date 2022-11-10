@@ -55,13 +55,10 @@ router.get('/:id/edit', async (req, res, next) => {
     const _id = req.params.id
 
     const record = await Record.findOne({ _id, userId }).lean()
-    if (!record) {
-      req.flash('warning_msg', '找不到這筆支出')
-      return res.redirect('/')
-    }
-
+    assert(record, new Error('找不到這筆支出'))
+    
     const categories = await getCategories()
-    assert(categories.length, Error('Oops可能發生了些問題...請重新整理')) // 確定有抓到種類資料
+    assert(categories.length, new Error('Oops可能發生了些問題...請重新整理')) // 確定有抓到種類資料
     record.date = moment(record.date).format('YYYY-MM-DD') // 整理日期格式
 
     return res.render('edit', { record, categories })
