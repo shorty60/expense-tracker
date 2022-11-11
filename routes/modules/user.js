@@ -59,7 +59,7 @@ router.post(
     failureFlash: true,
   })
 )
-
+// 使用者登出
 router.post('/logout', (req, res, next) => {
   req.logout(err => {
     if (err) {

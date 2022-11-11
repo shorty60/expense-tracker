@@ -1,6 +1,6 @@
 const express = require('express')
 const assert = require('assert')
-const moment = require('moment')
+const dayjs = require('dayjs')
 const Record = require('../../models/record')
 const router = express.Router()
 
@@ -59,7 +59,7 @@ router.get('/:id/edit', async (req, res, next) => {
     
     const categories = await getCategories()
     assert(categories.length, new Error('Oops可能發生了些問題...請重新整理')) // 確定有抓到種類資料
-    record.date = moment(record.date).format('YYYY-MM-DD') // 整理日期格式
+    record.date = dayjs(record.date).format('YYYY-MM-DD') // 整理日期格式
 
     return res.render('edit', { record, categories })
   } catch (err) {

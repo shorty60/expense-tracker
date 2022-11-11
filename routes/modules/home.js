@@ -1,6 +1,6 @@
 const express = require('express')
 const assert = require('assert')
-const moment = require('moment')
+const dayjs = require('dayjs')
 
 const Record = require('../../models/record')
 const { NoRecordsError } = require('../../errors/errortype')
@@ -20,23 +20,24 @@ router.get('/', async (req, res, next) => {
     )
     const categories = await getCategories() // 取得種類資料
 
-    let totalAmount = 0
-    records.forEach(record => {
-      totalAmount += record.amount
-      record.date = moment(record.date).format('YYYY-MM-DD')
-      categories.forEach(category => {
-        if (record.categoryId.toString() === category._id.toString()) {
-          record['icon'] = category.icon // 新增key-value pairs
-        }
-      })
+    const totalAmount = records.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.amount,
+      0
+    )
+    const recordsNew = records.map(record => {
+      record.date = dayjs(record.date).format('YYYY-MM-DD')
+      record.icon = categories.find(
+        category => category._id.toString() === record.categoryId.toString()
+      ).icon
+      return record
     })
 
-    return res.render('index', { records, categories, totalAmount })
+    return res.render('index', { recordsNew, categories, totalAmount })
   } catch (err) {
     next(err)
   }
 })
-
+// 篩選支出種類 
 router.get('/filter', async (req, res, next) => {
   try {
     const userId = req.user._id
@@ -47,19 +48,24 @@ router.get('/filter', async (req, res, next) => {
     assert(records.length, new NoRecordsError('目前還沒有這個分類的支出喔')) // 檢查資料庫是否撈不到紀錄
     const categories = await getCategories() //取得種類資料
 
-    let totalAmount = 0
-    records.forEach(record => {
-      totalAmount += record.amount
-      record.date = moment(record.date).format('YYYY-MM-DD')
-      categories.forEach(category => {
-        if (record.categoryId.toString() === category._id.toString()) {
-          record['icon'] = category.icon // 新增icon key-value pairs
-        }
-      })
+    const totalAmount = records.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.amount,
+      0
+    )
+    const recordsNew = records.map(record => {
+      record.date = dayjs(record.date).format('YYYY-MM-DD')
+      record.icon = categories.find(
+        category => category._id.toString() === record.categoryId.toString()
+      ).icon
+      return record
     })
 
-    return res.render('index', { records, categories, totalAmount, categoryId })
-
+    return res.render('index', {
+      recordsNew,
+      categories,
+      totalAmount,
+      categoryId,
+    })
   } catch (err) {
     next(err)
   }

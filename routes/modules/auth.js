@@ -17,12 +17,12 @@ router.get(
     failureRedirect: '/users/login',
   })
 )
-
+// 使用者按下google登入鈕，使用google Oauth，請求google給使用者email和公開檔案
 router.get(
   '/google',
   passport.authenticate('google', { scope: ['email', 'profile'] })
 )
-
+// google驗證使用者同意以及應用程式身分，把資料從callback link回傳後重新導向使用者
 router.get(
   '/google/callback',
   passport.authenticate('google', {
