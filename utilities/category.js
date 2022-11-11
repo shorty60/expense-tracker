@@ -10,15 +10,17 @@ async function getCategories() {
       餐飲食品: '<i class="fa-solid fa-utensils"></i>',
       其他: '<i class="fa-solid fa-pen"></i>',
     }
-
-    categories.forEach(category => {
-      for (const [key, value] of Object.entries(CATEGORY)) {
-        if (key === category.name) {
-          category['icon'] = value
-        }
-      }
+    
+    const categoriesWithIcons = categories.map(category => {
+       for (const [key, value] of Object.entries(CATEGORY)) {
+         if (key === category.name) {
+           category.icon = value
+         }
+       }
+       return category
     })
-    return categories
+    
+    return categoriesWithIcons
   } catch (err) {
     throw new Error('MongoDB error')
   }
