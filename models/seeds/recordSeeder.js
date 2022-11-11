@@ -30,7 +30,7 @@ db.once('open', async () => {
         const userCreated = await User.create({
           name,
           email,
-          password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
+          password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
         })
         // 整理records資料
         const recordsData = recordIndex.map(index => {
@@ -40,7 +40,7 @@ db.once('open', async () => {
           )
           record.categoryId = categoryData._id // FK: category_id
           record.userId = userCreated._id // FK: user_id
-          delete record['category']
+          delete record.category
           return record // map function 每個element的return value
         })
 

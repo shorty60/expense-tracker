@@ -25,7 +25,7 @@ router.post('/register', userValidator, async (req, res, next) => {
       email,
       password,
       confirmPassword,
-      errorsMsg,
+      errorsMsg
     })
   }
 
@@ -56,7 +56,7 @@ router.post(
   passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/users/login',
-    failureFlash: true,
+    failureFlash: true
   })
 )
 // 使用者登出

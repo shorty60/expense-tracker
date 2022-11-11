@@ -1,10 +1,10 @@
 class NoRecordsError extends Error {
-  constructor(message) {
+  constructor (message) {
     super(message)
     this.name = 'NoRecordsError'
   }
 }
 
 module.exports = {
-  NoRecordsError,
+  NoRecordsError
 }

@@ -14,7 +14,7 @@ router.get(
   '/facebook/callback',
   passport.authenticate('facebook', {
     successRedirect: '/',
-    failureRedirect: '/users/login',
+    failureRedirect: '/users/login'
   })
 )
 // 使用者按下google登入鈕，使用google Oauth，請求google給使用者email和公開檔案
@@ -27,7 +27,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     successRedirect: '/',
-    failureRedirect: '/users/login',
+    failureRedirect: '/users/login'
   })
 )
 

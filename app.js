@@ -23,7 +23,7 @@ app.engine(
   exphbs.engine({
     defaultLayout: 'main',
     extname: '.hbs',
-    helpers: handlebarsHelperClass,
+    helpers: handlebarsHelperClass
   })
 )
 app.set('view engine', 'hbs')
@@ -37,11 +37,11 @@ app.use(
     store: MongoStore.create({
       autoRemove: 'native', // cookie到期時預設TTL也到期，把expire的session移除
       mongoUrl: process.env.MONGODB_URI,
-      touchAfter: 24 * 60 * 60, // session 一天更新一次
+      touchAfter: 24 * 60 * 60 // session 一天更新一次
     }),
     cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000, // cookie存活時間 7 天，7天後清除cookie及session
-    },
+      maxAge: 7 * 24 * 60 * 60 * 1000 // cookie存活時間 7 天，7天後清除cookie及session
+    }
   })
 )
 

@@ -46,7 +46,7 @@ module.exports = app => {
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
         callbackURL: process.env.FACEBOOK_CALLBACK,
-        profileFields: ['email', 'displayName'],
+        profileFields: ['email', 'displayName']
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -54,7 +54,7 @@ module.exports = app => {
           const user = await User.findOne({ email }) // 看使用者是否已註冊過
           if (user) return done(null, user) // 有存過資料庫就直接放行而不需比對密碼
           // 如果資料庫還沒有使用者
-          const randomPassword = Math.random().toString(32).slice(-10) //產生一組隨機密碼給使用者
+          const randomPassword = Math.random().toString(32).slice(-10) // 產生一組隨機密碼給使用者
           const salt = await bcrypt.genSalt(10)
           const hash = await bcrypt.hash(randomPassword, salt)
           const userCreated = await User.create({ name, email, password: hash })
@@ -71,7 +71,7 @@ module.exports = app => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: process.env.GOOGLE_CALLBACK,
+        callbackURL: process.env.GOOGLE_CALLBACK
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -85,7 +85,7 @@ module.exports = app => {
           const userCreated = await User.create({
             name,
             email,
-            password: hash,
+            password: hash
           })
           return done(null, userCreated)
         } catch (err) {

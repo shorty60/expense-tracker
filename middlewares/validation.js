@@ -6,7 +6,7 @@ module.exports = {
     body('name').not().isEmpty().trim().withMessage('請填寫支出名稱'),
     body('date').not().isEmpty().isDate().withMessage('請輸入日期'),
     body('categoryId').not().isEmpty().withMessage('請輸入種類'),
-    body('amount').isInt({ gt: 0 }).withMessage('請輸入大於0的金額'),
+    body('amount').isInt({ gt: 0 }).withMessage('請輸入大於0的金額')
   ],
 
   userValidator: [
@@ -35,6 +35,6 @@ module.exports = {
         }
         // 如果通過客製化驗證，return true
         return true
-      }),
-  ],
+      })
+  ]
 }

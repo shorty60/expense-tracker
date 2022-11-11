@@ -37,7 +37,7 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
-// 篩選支出種類 
+// 篩選支出種類
 router.get('/filter', async (req, res, next) => {
   try {
     const userId = req.user._id
@@ -46,7 +46,7 @@ router.get('/filter', async (req, res, next) => {
       .sort({ _id: 'asc' })
       .lean() // 抓篩選後的records陣列
     assert(records.length, new NoRecordsError('目前還沒有這個分類的支出喔')) // 檢查資料庫是否撈不到紀錄
-    const categories = await getCategories() //取得種類資料
+    const categories = await getCategories() // 取得種類資料
 
     const totalAmount = records.reduce(
       (accumulator, currentValue) => accumulator + currentValue.amount,
@@ -64,7 +64,7 @@ router.get('/filter', async (req, res, next) => {
       recordsNew,
       categories,
       totalAmount,
-      categoryId,
+      categoryId
     })
   } catch (err) {
     next(err)

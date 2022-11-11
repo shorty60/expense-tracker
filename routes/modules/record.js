@@ -36,7 +36,7 @@ router.post('/', expenseValidator, async (req, res, next) => {
         amount,
         categoryId,
         categories,
-        errorsMsg,
+        errorsMsg
       })
     }
 
@@ -56,7 +56,7 @@ router.get('/:id/edit', async (req, res, next) => {
 
     const record = await Record.findOne({ _id, userId }).lean()
     assert(record, new Error('找不到這筆支出'))
-    
+
     const categories = await getCategories()
     assert(categories.length, new Error('Oops可能發生了些問題...請重新整理')) // 確定有抓到種類資料
     record.date = dayjs(record.date).format('YYYY-MM-DD') // 整理日期格式
@@ -91,7 +91,6 @@ router.put('/:id', expenseValidator, async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-
 })
 
 // 刪除一筆支出
